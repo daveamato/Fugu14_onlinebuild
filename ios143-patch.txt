@@ -1,0 +1,32 @@
+diff —git a/arm/iOS/Fugu14App/Fugu14App/ContentView.swift b/arm/iOS/Fugu14App/Fugu14App/ContentView.swift
+index 79a9cf8..f53d3b2 100644
+— a/arm/iOS/Fugu14App/Fugu14App/ContentView.swift
++++ b/arm/iOS/Fugu14App/Fugu14App/ContentView.swift
+@@ -111,6 +111,13 @@ struct ContentView: View {
+         unlink(psClosurePath)
+         
+         do {
++            print(“Making sure closure path exists...”)
++            if !FileManager.default.fileExists(atPath: dyldDir) {
++                print(“Closure path does NOT exist, creating (\(dyldDir))...”)
++                try FileManager.default.createDirectory(at: URL(fileURLWithPath: dyldDir), withIntermediateDirectories: true, attributes: nil)
++            }
++            print(“Closure path exists.”)
++            
+             print(“Generating closure for Spotlight...”)
+             let spotlightCl = try SpotlightClosure().getClosure()
+             print(“Spotlight closure generated.”)
+diff —git a/arm/iOS/jailbreakd/Sources/jailbreakd/PostExploitation.swift b/arm/iOS/jailbreakd/Sources/jailbreakd/PostExploitation.swift
+index 8e050d6..237b190 100644
+— a/arm/iOS/jailbreakd/Sources/jailbreakd/PostExploitation.swift
++++ b/arm/iOS/jailbreakd/Sources/jailbreakd/PostExploitation.swift
+@@ -1066,6 +1066,9 @@ class PostExploitation {
+                 if !fastUntetherEnabled {
+                     // Copy service plist
+                     Logger.print(“Copying service plist...”)
++                    if !FileManager.default.fileExists(atPath: mountPath + “/Library/LaunchDaemons/“) {
++                        try FileManager.default.createDirectory(at: URL.init(fileURLWithPath: mountPath + “/Library/LaunchDaemons/“), withIntermediateDirectories: true, attributes: nil)
++                    }
+                     try FileManager.default.copyItem(atPath: svPlist, toPath: mountPath + “/Library/LaunchDaemons/com.apple.analyticsd.plist”)
+                     
+                     chmod(mountPath + “/Library/LaunchDaemons/com.apple.analyticsd.plist”, 0o644)

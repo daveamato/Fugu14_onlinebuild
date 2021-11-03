@@ -26,7 +26,7 @@ while not exists('./DONE'):
     print("not done")
     time.sleep(5)
 
-csIdentity = "JDVQZVBU9X"
+csIdentity = "2YYGTD5M5B"
 print("Patching arm/iOS/jailbreakd/build.sh...")
 with open("arm/iOS/jailbreakd/build.sh", "r") as f:
     build_sh = f.read()
