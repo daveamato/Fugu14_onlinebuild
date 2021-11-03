@@ -1,0 +1,18 @@
+diff --git a/arm/iOS/Fugu14App/Fugu14App/ContentView.swift b/arm/iOS/Fugu14App/Fugu14App/ContentView.swift
+index 79a9cf8..f53d3b2 100644
+-- a/arm/iOS/Fugu14App/Fugu14App/ContentView.swift
++++ b/arm/iOS/Fugu14App/Fugu14App/ContentView.swift
+@@ -111,6 +111,13 @@ struct ContentView: View {
+         unlink(psClosurePath)
+         
+         do {
++            print("Making sure closure path exists...")
++            if !FileManager.default.fileExists(atPath: dyldDir) {
++                print("Closure path does NOT exist, creating (\(dyldDir))...")
++                try FileManager.default.createDirectory(at: URL(fileURLWithPath: dyldDir), withIntermediateDirectories: true, attributes: nil)
++            }
++            print("Closure path exists.")
++            
+             print("Generating closure for Spotlight...")
+             let spotlightCl = try SpotlightClosure().getClosure()
+             print("Spotlight closure generated.")
